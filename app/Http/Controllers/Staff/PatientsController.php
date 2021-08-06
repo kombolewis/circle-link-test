@@ -68,7 +68,7 @@ class PatientsController extends Controller
      */
     public function edit(int $id)
     {
-        return view('staff.users.edit')->with(['patient' => Patient::find($id)]);
+      return view('staff.users.edit')->with(['patient' => Patient::find($id)]);
 
     }
 
@@ -80,8 +80,15 @@ class PatientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Patient $patient)
-    {
-        //
+    {		
+			$request->validate([
+				'name' => 'required|string|max:255',
+				'email' => 'required|string|email|max:255|unique:users',
+			]);
+			$patient->name = $request->name;
+			$patient->email = $request->email;
+			$patient->save();
+			return redirect()->route('staff.users.index');
     }
 
     /**

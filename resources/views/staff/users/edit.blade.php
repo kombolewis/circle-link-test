@@ -2,7 +2,7 @@
   <x-slot name="header">
 
     <div class="font-semibold text-xl text-gray-800 leading-tight flex justify-between">
-      {{ __('Staff Area - All Registered Patients') }}
+      {{ __('Staff Area - Edit Patient Details') }}
       <span >
         <div class="hidden sm:flex sm:items-center sm:ml-6">
             <x-dropdown align="right" width="48">
@@ -23,7 +23,7 @@
                     <!-- Links To Other Pages -->
                     <div>
                         <x-dropdown-link :href="route('staff.users.index')">
-                            {{ __('View Registered Patients') }}
+                            {{ __('All Registered Patients') }}
                         </x-dropdown-link>
                     </div>
                     <div>
@@ -46,25 +46,25 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-              <form method="POST" action="{{ route('staff.users.update') }}">
+              <form method="POST" action="{{ route('staff.users.update', $patient) }}">
                   @method('PATCH')
                   @csrf
 
                   <!-- Name -->
                   <div>
                       <x-label for="name" :value="__('Name')" />
-                      <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                      <x-input id="name" class="block mt-1 w-full" type="text" name="name" value="{{$patient->name}}" required autofocus />
                   </div>
 
                   <!-- Email Address -->
                   <div class="mt-4">
                       <x-label for="email" :value="__('Email')" />
-                      <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                      <x-input id="email" class="block mt-1 w-full" type="email" name="email" value="{{$patient->email}}" required />
                   </div>
 
                   <div class="flex items-center justify-end mt-4">
                       <x-button class="ml-4">
-                          {{ __('Register') }}
+                          {{ __('Update Details') }}
                       </x-button>
                   </div>
               </form>
