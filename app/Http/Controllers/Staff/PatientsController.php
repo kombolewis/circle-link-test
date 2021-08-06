@@ -25,7 +25,7 @@ class PatientsController extends Controller
      */
     public function create()
     {
-			return view('staff.users.create');
+		return view('staff.users.create');
     }
 
     /**
@@ -46,7 +46,6 @@ class PatientsController extends Controller
 					'email' => $request->email,
             ]);
   
-
 			return redirect()->route('staff.users.index');
     }
 
@@ -67,9 +66,10 @@ class PatientsController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function edit(Patient $patient)
+    public function edit(int $id)
     {
-        //
+        return view('staff.users.edit')->with(['patient' => Patient::find($id)]);
+
     }
 
     /**
