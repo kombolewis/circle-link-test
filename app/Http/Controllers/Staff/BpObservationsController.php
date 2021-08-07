@@ -36,7 +36,7 @@ class BpObservationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {       dd($request);
 			$request->validate([
 				'systole' => 'required|integer|max:200',
 				'diastole' => 'required|integer|max:200',

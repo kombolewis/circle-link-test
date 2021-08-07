@@ -21,11 +21,13 @@
 
                 <x-slot name="content">
                     <!-- Links To Other Pages -->
-                    <div>
-                        <x-dropdown-link :href="route('staff.bpo.index')">
-                            {{ __('BP Observations') }}
-                        </x-dropdown-link>
-                    </div>
+                    @can('create-users')
+                        <div>
+                            <x-dropdown-link :href="route('admin.users.create')">
+                                {{ __('Register New Staff') }}
+                            </x-dropdown-link>
+                        </div>                   
+                    @endcan
                 </x-slot>
             </x-dropdown>
         </div>

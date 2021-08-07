@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class UsersController extends Controller
 {
@@ -27,7 +29,7 @@ class UsersController extends Controller
 	 */
 	public function create()
 	{
-			//
+		return view('admin.users.create')->with(['roles' => Role::all()]);
 	}
 
 	/**
@@ -38,7 +40,21 @@ class UsersController extends Controller
 	 */
 	public function store(Request $request)
 	{
-			//
+		$request->validate([
+				'name' => 'required|string|max:255',
+				'email' => 'required|string|email|max:255|unique:users',
+				'password' => ['required', 'confirmed', Rules\Password::defaults()],
+				'roles' => 'required|array'
+		]);
+
+		$user = User::create([
+				'name' => $request->name,
+				'email' => $request->email,
+				'password' => Hash::make($request->password),
+		]);
+		$user->roles()->sync($request->roles);
+
+		return redirect()->route('admin.users.index');
 	}
 
 	/**
