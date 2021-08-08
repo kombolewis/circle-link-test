@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,11 +27,18 @@ class AuthenticatedSessionController extends Controller
      * @param  \App\Http\Requests\Auth\LoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(LoginRequest $request)
+    public function store(LoginRequest $request, ToastrFactory $flasher)
     {
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        
+        $flasher->type('success')
+                ->message('Logged in successfully')
+                ->closeButton(true)
+                ->flash();
+		
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }

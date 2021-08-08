@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
+use Flasher\Toastr\Prime\ToastrFactory;
 
 class RegisteredUserController extends Controller
 {
@@ -54,6 +55,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
 
         return redirect(RouteServiceProvider::HOME);
     }
