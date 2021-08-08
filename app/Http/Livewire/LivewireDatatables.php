@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\User;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use Mediconesystems\LivewireDatatables\Column;
@@ -47,10 +48,11 @@ class LivewireDatatables extends LivewireDatatable
 		return view('livewire.livewire-datatables', ['id' => $id, 'name' => $name]);
 	}
 
-	public function destroy(User $user) {
+	public function destroy(User $user, ToastrFactory $flasher) {
 		if(Gate::denies('delete-users')) return redirect()->route('admin.users.index');
 		$user->roles()->detach();
 		$user->delete();
+
 	}
 	public function export()
 	{

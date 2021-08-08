@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\BPO;
 use App\Models\Patient;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Support\Facades\Gate;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
@@ -45,7 +46,7 @@ class PatientsBposDatatable extends LivewireDatatable
 	private function patient(int $id) {
 		return Patient::find($id)->name;
 	}
-	public function destroy(BPO $bpo) {
-		$bpo->delete();
+	public function destroy(BPO $bpo, ToastrFactory $flasher) {
+		$ok = $bpo->delete();
 	}
 }

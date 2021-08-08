@@ -49,7 +49,7 @@
               <div class="p-6 bg-white border-b border-gray-200">
 
                 <h2 class="text-3xl font-bold mb-10 text-gray-700 content-center">Edit Staff - {{$user->name}}</h2>
-                <form method="POST" action="{{ route('staff.users.update', $user) }}">
+                <form method="POST" action="{{ route('admin.users.update', $user) }}">
                   @method('PATCH')
                   @csrf
 

@@ -22,7 +22,7 @@
                 <x-slot name="content">
                     <!-- Links To Other Pages -->
                     <div>
-                        <x-dropdown-link :href="route('staff.users.index')">
+                        <x-dropdown-link :href="route('staff.patients.index')">
                             {{ __('All Registered Patients ') }}
                         </x-dropdown-link>
                     </div>

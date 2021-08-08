@@ -22,7 +22,7 @@
                 <x-slot name="content">
                     <!-- Links To Other Pages -->
                     <div>
-                        <x-dropdown-link :href="route('staff.users.create')">
+                        <x-dropdown-link :href="route('staff.patients.create')">
                             {{ __('Register New Patient') }}
                         </x-dropdown-link>
                     </div>

@@ -37,4 +37,5 @@
         </div>
         <livewire:scripts />
     </body>
+    @flasher_render
 </html>

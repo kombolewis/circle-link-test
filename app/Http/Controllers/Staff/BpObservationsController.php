@@ -6,6 +6,7 @@ use App\Models\BPO;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Flasher\Toastr\Prime\ToastrFactory;
 
 class BpObservationsController extends Controller
 {
@@ -39,7 +40,7 @@ class BpObservationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request, ToastrFactory $flasher) {
       // dd($request);
 			$request->validate([
 				'systole' => 'required|integer|max:200',
@@ -49,10 +50,22 @@ class BpObservationsController extends Controller
 		
 			$patient = Patient::find($request->id);
 
-			$patient->bpos()->create([
+			$bpo = $patient->bpos()->create([
 				'systole' => $request->systole,
 				'diastole' => $request->diastole,
-			]);
+      ]);
+      
+      if($bpo) {
+        $flasher->type('success')
+        ->message('BPO created successfully')
+        ->closeButton(true)
+        ->flash();
+      }else{
+        $flasher->type('error')
+        ->message('BPO creation failed')
+        ->closeButton(true)
+        ->flash();
+      }
   
 			return redirect()->route('staff.bpo.index')->with('success', 'Record created!');
     }
@@ -84,7 +97,7 @@ class BpObservationsController extends Controller
      * @param  \App\Models\BPO  $bpo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BPO $bpo) {
+    public function update(Request $request, BPO $bpo, ToastrFactory $flasher) {
 			$request->validate([
 				'systole' => 'required|integer|max:200',
 				'diastole' => 'required|integer|max:200',
@@ -92,7 +105,19 @@ class BpObservationsController extends Controller
 		
       $bpo->systole = $request->systole;
       $bpo->diastole = $request->diastole;
-      $bpo->save();
+      $ok = $bpo->save();
+
+      if($ok) {
+        $flasher->type('success')
+        ->message('BPO updated successfully')
+        ->closeButton(true)
+        ->flash();
+      }else{
+        $flasher->type('error')
+        ->message('BPO update failed')
+        ->closeButton(true)
+        ->flash();
+      }
   
 			return redirect()->route('staff.bpo.index')->with('success', 'Record created!');
     }

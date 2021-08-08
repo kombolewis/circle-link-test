@@ -22,7 +22,7 @@
                     <x-slot name="content">
                         <!-- Links To Other Pages -->
                         <div>
-                            <x-dropdown-link :href="route('staff.users.index')">
+                            <x-dropdown-link :href="route('staff.patients.index')">
                                 {{ __('All Registered Patients') }}
                             </x-dropdown-link>
                         </div>
@@ -41,7 +41,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
-              <form method="POST" action="{{ route('staff.users.store') }}">
+              <form method="POST" action="{{ route('staff.patients.store') }}">
                   @csrf
 
                   <!-- Name -->

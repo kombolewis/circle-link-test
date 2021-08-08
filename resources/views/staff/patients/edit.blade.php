@@ -22,12 +22,12 @@
                 <x-slot name="content">
                     <!-- Links To Other Pages -->
                     <div>
-                        <x-dropdown-link :href="route('staff.users.index')">
+                        <x-dropdown-link :href="route('staff.patients.index')">
                             {{ __('All Registered Patients') }}
                         </x-dropdown-link>
                     </div>
                     <div>
-                      <x-dropdown-link :href="route('staff.users.create')">
+                      <x-dropdown-link :href="route('staff.patients.create')">
                           {{ __('Register New Patient') }}
                       </x-dropdown-link>
                     </div>
@@ -48,7 +48,7 @@
             <div class="p-6 bg-white border-b border-gray-200">
                 <h2 class="text-3xl font-bold mb-10 text-gray-700 content-center">Edit Patient Details - {{$patient->name}}</h2>
 
-              <form method="POST" action="{{ route('staff.users.update', $patient) }}">
+              <form method="POST" action="{{ route('staff.patients.update', $patient) }}">
                   @method('PATCH')
                   @csrf
 

@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
@@ -38,7 +39,7 @@ class UsersController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(Request $request)
+	public function store(Request $request, ToastrFactory $flasher)
 	{
 		$request->validate([
 				'name' => 'required|string|max:255',
@@ -53,6 +54,18 @@ class UsersController extends Controller
 				'password' => Hash::make($request->password),
 		]);
 		$user->roles()->sync($request->roles);
+
+		if($user) {
+			$flasher->type('success')
+			->message('User created successfully')
+			->closeButton(true)
+			->flash();
+		}else{
+			$flasher->type('error')
+			->message('User creation failed')
+			->closeButton(true)
+			->flash();
+		}
 
 		return redirect()->route('admin.users.index');
 	}
@@ -86,12 +99,25 @@ class UsersController extends Controller
 	 * @param  \App\Models\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, User $user)
+	public function update(Request $request, User $user, ToastrFactory $flasher)
 	{
 		$user->roles()->sync($request->roles);
 		$user->name = $request->name;
 		$user->email = $request->email;
-		$user->save();
+		$ok = $user->save();
+
+		if($ok) {
+			$flasher->type('success')
+			->message('User updated successfully')
+			->closeButton(true)
+			->flash();
+		}else{
+			$flasher->type('error')
+			->message('User update failed')
+			->closeButton(true)
+			->flash();
+		}
+
 		return redirect()->route('admin.users.index');
 	}
 

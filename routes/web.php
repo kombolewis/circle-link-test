@@ -31,6 +31,6 @@ Route::prefix('admin')->name('admin.')->middleware('can:manage-users')->group(fu
 });
 
 Route::prefix('staff')->name('staff.')->group(function() {
-    Route::resource('/users', PatientsController::class)->middleware(['auth']);
+    Route::resource('/patients', PatientsController::class)->middleware(['auth']);
     Route::resource('/bpo', BpObservationsController::class)->middleware(['auth']);
 });
