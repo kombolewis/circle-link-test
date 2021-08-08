@@ -22,8 +22,8 @@
                 <x-slot name="content">
                     <!-- Links To Other Pages -->
                     <div>
-                        <x-dropdown-link :href="route('staff.bpo.index')">
-                            {{ __('BP Observations ') }}
+                        <x-dropdown-link :href="route('staff.users.index')">
+                            {{ __('All Registered Patients ') }}
                         </x-dropdown-link>
                     </div>
                 </x-slot>
@@ -40,7 +40,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 bg-white border-b border-gray-200">
               <div class="flex items-center">
-                <h2 class="text-3xl font-bold mb-10 content-center">Record Patient Blood Pressure {{$patient->name}}</h2>
+                <h2 class="text-3xl font-bold mb-10 content-center">Record Patient Blood Pressure - {{$patient->name}}</h2>
               </div>
                 <!-- Validation Errors -->
                 <x-auth-validation-errors class="mb-4" :errors="$errors" />
