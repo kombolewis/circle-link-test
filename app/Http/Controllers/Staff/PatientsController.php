@@ -79,8 +79,7 @@ class PatientsController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
-    {		
+    public function update(Request $request, Patient $patient) {		
 			$request->validate([
 				'name' => 'required|string|max:255',
 				'email' => 'required|string|email|max:255|unique:users',

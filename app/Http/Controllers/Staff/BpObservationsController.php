@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Staff;
 
-use App\Http\Controllers\Controller;
+use App\Models\BPO;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BpObservationsController extends Controller
 {
@@ -25,8 +26,11 @@ class BpObservationsController extends Controller
      */
     public function create(Request $request)
     {
-			$patient = Patient::find($request->query('id'));
-			return view('staff.bpo.create')->with(['patient' => $patient]);
+			if($request->id) {
+				return view('staff.bpo.create-from-patient')->with(['patient' => Patient::find($request->query('id'))]);
+			}
+			return view('staff.bpo.create-blank');
+
     }
 
     /**
@@ -35,11 +39,12 @@ class BpObservationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {       dd($request);
+    public function store(Request $request) {
+      // dd($request);
 			$request->validate([
 				'systole' => 'required|integer|max:200',
 				'diastole' => 'required|integer|max:200',
+				'id' => 'required|int'
 			]);
 		
 			$patient = Patient::find($request->id);
@@ -49,50 +54,56 @@ class BpObservationsController extends Controller
 				'diastole' => $request->diastole,
 			]);
   
-			return redirect()->route('staff.users.index')->with('success', 'Record created!');
+			return redirect()->route('staff.bpo.index')->with('success', 'Record created!');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Patient  $patient
+     * @param  \App\Models\BPO  $patient
      * @return \Illuminate\Http\Response
      */
-    public function show()
-    {
-      
+    public function show(BPO $bpo) {
+      //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Patient  $patient
+     * @param  \App\Models\BPO  $bpo
      * @return \Illuminate\Http\Response
      */
-    public function edit(Patient $patient)
-    {
-        //
+    public function edit(BPO $bpo) {
+			return view('staff.bpo.edit')->with(['bpo' => $bpo]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Patient  $patient
+     * @param  \App\Models\BPO  $bpo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
-    {
-        //
+    public function update(Request $request, BPO $bpo) {
+			$request->validate([
+				'systole' => 'required|integer|max:200',
+				'diastole' => 'required|integer|max:200',
+			]);
+		
+      $bpo->systole = $request->systole;
+      $bpo->diastole = $request->diastole;
+      $bpo->save();
+  
+			return redirect()->route('staff.bpo.index')->with('success', 'Record created!');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Patient  $patient
+     * @param  \App\Models\BPO  $bpo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patient)
+    public function destroy(BPO $bpo)
     {
         //
     }

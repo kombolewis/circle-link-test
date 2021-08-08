@@ -31,15 +31,21 @@ class PatientsBposDatatable extends LivewireDatatable
 			Column::callback(['patient_id'], fn ($id) => $this->patient($id))->label('NAME'),
 			Column::name('systole'),
 			Column::name('diastole'),
-      DateColumn::name('created_at')->format('Y-m-d H:i:s'),
-      
+			DateColumn::name('created_at')->format('Y-m-d H:i:s'),
+			Column::callback(['id', 'patient_id'], fn ($id,$patient_id) => $this->actions($id,$patient_id))
 		];
   }
   
 
+	private function actions(int $id, int $patient_id) {
+		return view('livewire.patients-bpos-datatable', ['id' => $id, 'patient_id' => $patient_id]);
+  }
+  
 
 	private function patient(int $id) {
 		return Patient::find($id)->name;
 	}
-  
+	public function destroy(BPO $bpo) {
+		$bpo->delete();
+	}
 }

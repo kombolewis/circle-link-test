@@ -47,9 +47,8 @@ class LivewireDatatables extends LivewireDatatable
 		return view('livewire.livewire-datatables', ['id' => $id, 'name' => $name]);
 	}
 
-	public function destroy(int $id) {
+	public function destroy(User $user) {
 		if(Gate::denies('delete-users')) return redirect()->route('admin.users.index');
-		$user = User::find($id);
 		$user->roles()->detach();
 		$user->delete();
 	}

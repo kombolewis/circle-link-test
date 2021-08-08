@@ -15,7 +15,7 @@ class PatientModelSelect extends LivewireSelect
     
 	public function options($searchTerm = null) : Collection {
 		if($searchTerm) {
-			return $this->records->filter(fn($value, $key) => strpos($value->description, $searchTerm) !== false);
+			return $this->records->filter(fn($value, $key) => stripos(($value->description), $searchTerm) !== false);
 		}
 		return $this->records;
 		

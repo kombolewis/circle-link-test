@@ -2,7 +2,7 @@
   <x-slot name="header">
 
     <div class="font-semibold text-xl text-gray-800 leading-tight flex justify-between">
-      {{ __('Staff Area - All Registered Patients') }}
+      {{ __('Staff Area - All BP Observations') }}
       <span >
         <div class="hidden sm:flex sm:items-center sm:ml-6">
             <x-dropdown align="right" width="48">
@@ -48,7 +48,7 @@
                         </div>
                     </button>
                 </div> --}}
-                <livewire:patients-bpos-datatable searchable="name, email" />
+                <livewire:patients-bpos-datatable searchable="id" />
               </div>
           </div>
       </div>

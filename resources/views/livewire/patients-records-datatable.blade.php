@@ -6,7 +6,7 @@
     </a>    
 
     <a href="{{ route('staff.bpo.create', ['id' => $id]) }}"  class="p-1 text-blue-600 hover:bg-blue-600 hover:text-white rounded has-tooltip">
-        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-green-500 -mt-8'>Register New Patient</span>
+        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-green-500 -mt-8'>Create New BPO</span>
         <img src="https://img.icons8.com/material-rounded/24/000000/heart-with-pulse.png"/>
     </a>     
 
