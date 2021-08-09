@@ -51,7 +51,7 @@
                   <!-- Name -->
                   <livewire:patient-model-select
                     name="id"  
-                    placeholder="Choose a Patient"
+                    placeholder="Choose a Patient - type to show options"
                     :searchable="true"
                   />
 

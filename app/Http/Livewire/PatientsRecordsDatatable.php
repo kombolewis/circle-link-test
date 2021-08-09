@@ -12,10 +12,9 @@ class PatientsRecordsDatatable extends LivewireDatatable
 {
 
 
-    public $model = Patient::class;
+  public $model = Patient::class;
 
-
-    public function columns() {
+  public function columns() {
 		return [
 			NumberColumn::name('id')->sortBy('id'),
 			Column::name('name'),

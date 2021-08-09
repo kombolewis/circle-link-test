@@ -4,8 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\BPO;
 use App\Models\Patient;
-use Flasher\Toastr\Prime\ToastrFactory;
+use App\Exports\BpoExport;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
+use Flasher\Toastr\Prime\ToastrFactory;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -16,6 +18,9 @@ class PatientsBposDatatable extends LivewireDatatable
   public $model = BPO::class;
 
 	public $exportable = false;
+
+	public $selected = [];
+
 
 	/**
 	 * Class constructor.
@@ -36,15 +41,17 @@ class PatientsBposDatatable extends LivewireDatatable
 			Column::callback(['id', 'patient_id'], fn ($id,$patient_id) => $this->actions($id,$patient_id))
 		];
   }
-  
 
 	private function actions(int $id, int $patient_id) {
 		return view('livewire.patients-bpos-datatable', ['id' => $id, 'patient_id' => $patient_id]);
   }
   
-
 	private function patient(int $id) {
 		return Patient::find($id)->name;
+	}
+
+	public function export() {
+		return Excel::download(new BpoExport($this->selected), 'BPO.csv');
 	}
 	public function destroy(BPO $bpo, ToastrFactory $flasher) {
 		$ok = $bpo->delete();
