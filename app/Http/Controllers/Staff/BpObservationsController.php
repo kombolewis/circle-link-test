@@ -119,7 +119,7 @@ class BpObservationsController extends Controller
         ->flash();
       }
   
-			return redirect()->route('staff.bpo.index')->with('success', 'Record created!');
+			return redirect()->route('staff.bpo.index');
     }
 
     /**
@@ -128,8 +128,22 @@ class BpObservationsController extends Controller
      * @param  \App\Models\BPO  $bpo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(BPO $bpo)
+    public function destroy(BPO $bpo, ToastrFactory $flasher)
     {
-        //
+      $ok = $bpo->delete();
+      if($ok) {
+        $flasher->type('success')
+        ->message('BPO deleted successfully')
+        ->closeButton(true)
+        ->flash();
+      }else{
+        $flasher->type('error')
+        ->message('BPO deletion failed')
+        ->closeButton(true)
+        ->flash();
+      }
+			return redirect()->route('staff.bpo.index');
+
+
     }
 }

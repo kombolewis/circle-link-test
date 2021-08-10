@@ -33,7 +33,7 @@ class PatientsBposDatatable extends LivewireDatatable
   public function columns() {
 		return [
 			Column::checkbox(),
-			NumberColumn::name('id')->sortBy('id'),
+			NumberColumn::name('id')->sortBy('id')->searchable(),
 			Column::callback(['patient_id'], fn ($id) => $this->patient($id))->label('NAME'),
 			Column::name('systole'),
 			Column::name('diastole'),
@@ -43,7 +43,7 @@ class PatientsBposDatatable extends LivewireDatatable
   }
 
 	private function actions(int $id, int $patient_id) {
-		return view('livewire.patients-bpos-datatable', ['id' => $id, 'patient_id' => $patient_id]);
+		return view('livewire.patients-bpos-datatable', ['bpo' => BPO::find($id), 'patient_id' => $patient_id]);
   }
   
 	private function patient(int $id) {
@@ -53,7 +53,5 @@ class PatientsBposDatatable extends LivewireDatatable
 	public function export() {
 		return Excel::download(new BpoExport($this->selected), 'BPO.csv');
 	}
-	public function destroy(BPO $bpo, ToastrFactory $flasher) {
-		$ok = $bpo->delete();
-	}
+
 }

@@ -37,7 +37,7 @@ class PatientsController extends Controller
   public function store(Request $request, ToastrFactory $flasher) {
     $request->validate([
       'name' => 'required|string|max:255',
-      'email' => 'required|string|email|max:255|unique:patient',
+      'email' => 'required|string|email|max:255|unique:patients',
     ]);
 
     $user = Patient::create([

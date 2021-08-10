@@ -47,15 +47,9 @@ class LivewireDatatables extends LivewireDatatable
 	}
 
 	private function actions(int $id, string $name) {
-		return view('livewire.livewire-datatables', ['id' => $id, 'name' => $name]);
+		return view('livewire.livewire-datatables', ['user' => User::find($id), 'name' => $name]);
 	}
 
-	public function destroy(User $user, ToastrFactory $flasher) {
-		if(Gate::denies('delete-users')) return redirect()->route('admin.users.index');
-		$user->roles()->detach();
-		$user->delete();
-
-	}
 	public function export() {
 		return Excel::download(new UsersExport($this->selected), 'Staff.csv');
 	}

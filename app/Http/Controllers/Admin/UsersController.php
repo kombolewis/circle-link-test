@@ -127,7 +127,21 @@ class UsersController extends Controller
 	 * @param  \App\Models\User  $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy(User $user)
-	{
+	public function destroy(User $user, ToastrFactory $flasher) {
+		if(Gate::denies('delete-users')) return redirect()->route('admin.users.index');
+		$user->roles()->detach();
+		$ok = $user->delete();
+		if($ok) {
+			$flasher->type('success')
+			->message('User deleted successfully')
+			->closeButton(true)
+			->flash();
+		}else{
+			$flasher->type('error')
+			->message('User deletion failed')
+			->closeButton(true)
+			->flash();
+		}
+		return redirect()->route('admin.users.index');
 	}
 }

@@ -48,7 +48,7 @@
                         </div>
                     </button>
                 </div> --}}
-                <livewire:patients-bpos-datatable searchable="id" />
+                <livewire:patients-bpos-datatable  />
               </div>
           </div>
       </div>
