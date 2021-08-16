@@ -7,7 +7,6 @@ use App\Models\Patient;
 use App\Exports\BpoExport;
 use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
-use Flasher\Toastr\Prime\ToastrFactory;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -15,7 +14,6 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 
 class PatientsBposDatatable extends LivewireDatatable
 {
-  public $model = BPO::class;
 
 	public $exportable = false;
 
@@ -26,15 +24,23 @@ class PatientsBposDatatable extends LivewireDatatable
 	 * Class constructor.
 	 */
 	public function __construct() {
+
 		if(Gate::allows('export-bpos')) {
 			$this->exportable = true;
 		}
 	}
+
+	public function builder()
+	{
+		return BPO::query()
+									->select('bpo.id','systole', 'diastole', 'patient_id','patients.name as name','bpo.created_at')
+									->join('patients', 'patients.id', '=', 'bpo.patient_id');
+	}
   public function columns() {
 		return [
 			Column::checkbox(),
-			NumberColumn::name('id')->sortBy('id')->searchable(),
-			Column::callback(['patient_id'], fn ($id) => $this->patient($id))->label('NAME'),
+			NumberColumn::name('id')->sortBy('id'),
+			Column::name('patients.name')->searchable(),
 			Column::name('systole'),
 			Column::name('diastole'),
 			DateColumn::name('created_at')->format('Y-m-d H:i:s'),
@@ -46,12 +52,11 @@ class PatientsBposDatatable extends LivewireDatatable
 		return view('livewire.patients-bpos-datatable', ['bpo' => BPO::find($id), 'patient_id' => $patient_id]);
   }
   
-	private function patient(int $id) {
-		return Patient::find($id)->name;
-	}
 
 	public function export() {
 		return Excel::download(new BpoExport($this->selected), 'BPO.csv');
 	}
+
+
 
 }
