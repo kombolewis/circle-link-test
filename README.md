@@ -45,7 +45,7 @@ Start the local development server
 
     php artisan serve
 
-You can now access the server at http://localhost:8000. --  default login: admin/admin@admin.com
+You can now access the server at http://localhost:8000. --  default login: admin@admin.com/password
 
 **TL;DR command list**
 
